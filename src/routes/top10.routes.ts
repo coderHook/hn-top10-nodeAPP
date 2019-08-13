@@ -8,7 +8,9 @@ const router = express.Router()
  */
 router.get('/in-titles-last-25-Stories', titlesLast25Controller)
 
-
+/**
+ * Get the top 10 words in a Post of exactly a week Ago, if today is Monday from last Monday.
+ */
 router.get('/in-post-last-week', inPostLastWeekController)
 
 export default router

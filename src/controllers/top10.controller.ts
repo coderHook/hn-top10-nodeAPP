@@ -30,7 +30,16 @@ export async function titlesLast25Controller (req: Request, res: Response, next:
 }
 
 export function inPostLastWeekController(req: Request, res: Response, next: NextFunction){
-  console.log('inPostLastWeekController')
+  // Get last week date
+  function getLastWeek(): Date {
+    const today: Date = new Date();
+    console.log(today.getTime()/1000)
+    const lastWeek: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
+    return lastWeek;
+  }
 
-  res.send('inPostLastWeek')
+  // Get lastWeek date and convert it to unixTime
+  const lastWeekUnix: number = getLastWeek().getTime()/1000
+  
+  res.send({'lastWeek': lastWeekUnix})
 }
