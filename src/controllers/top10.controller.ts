@@ -29,3 +29,8 @@ export async function titlesLast25Controller (req: Request, res: Response, next:
   res.status(200).json({top10_words})
 }
 
+export function inPostLastWeekController(req: Request, res: Response, next: NextFunction){
+  console.log('inPostLastWeekController')
+
+  res.send('inPostLastWeek')
+}
