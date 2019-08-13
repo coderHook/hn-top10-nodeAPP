@@ -47,14 +47,16 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
       }
     }
   }
+
   // Delete the char used to mark that the word was read '-'
   delete mostUsedWords['-']
-  //Sort the Object by values
-  const top10: string[] = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
 
-  console.log("mosUsedWords", mostUsedWords)
+  //Sort the Object by values and get the top10
+  const top10_words: string[] = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
 
-  res.status(200).json(top10)
+  console.log("mostUsedWords", mostUsedWords)
+
+  res.status(200).json({top10_words})
 })
 
 export default router
