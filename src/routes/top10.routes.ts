@@ -19,9 +19,9 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
     interface ITitle { title: string }
     const titleJSON: ITitle = JSON.parse(title.text)
 
-    console.log('typeof titleJSON', typeof titleJSON)
+    console.log('typeof titleJSON', titleJSON.title)
 
-    return titleJSON.title
+    return titleJSON.title.toLowerCase()
   })
 
   const titles: string[] = await Promise.all(arrTitles)
@@ -34,11 +34,13 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
 
   let count: number;
 
+  // Create the object with the repeated words and the times they appear
   for (let i=0; i<titlesWords.length; i++) {
     count = 0;
 
     for (let j=i+1; j< titlesWords.length; j++) {
-      
+
+      // Check if the words are equal
       if(titlesWords[i] == titlesWords[j]) {
         count = count + 1;
         // Add the word to our Object
@@ -53,6 +55,12 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
   const top10: string[] = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
 
   console.log(mostUsedWords)
+
+  const word1: string = 'Apple'
+  const word2: string = 'apple'
+  const test: boolean = word1 == word2
+  console.log(test)
+
   res.status(200).json(top10)
 })
 
