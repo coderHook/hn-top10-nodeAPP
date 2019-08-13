@@ -19,14 +19,11 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
     interface ITitle { title: string }
     const titleJSON: ITitle = JSON.parse(title.text)
 
-    console.log('typeof titleJSON', titleJSON.title)
-
     return titleJSON.title.toLowerCase()
   })
 
   const titles: string[] = await Promise.all(arrTitles)
 
-  // titles.map(title => title.split(/(?:,| )+/))
   let titlesWords: string[] = [titles.join(',')][0].split(/(?:,| )+/)
  
   interface IMostUsed {[key: string]: number}
@@ -41,7 +38,7 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
     for (let j=i+1; j< titlesWords.length; j++) {
 
       // Check if the words are equal
-      if(titlesWords[i] == titlesWords[j]) {
+      if(titlesWords[i] === titlesWords[j]) {
         count = count + 1;
         // Add the word to our Object
         mostUsedWords[titlesWords[i]] = count
@@ -50,16 +47,12 @@ router.get('/in-titles-last-25-Stories', async (req: Request, res: Response, nex
       }
     }
   }
-
+  // Delete the char used to mark that the word was read '-'
+  delete mostUsedWords['-']
   //Sort the Object by values
   const top10: string[] = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
 
-  console.log(mostUsedWords)
-
-  const word1: string = 'Apple'
-  const word2: string = 'apple'
-  const test: boolean = word1 == word2
-  console.log(test)
+  console.log("mosUsedWords", mostUsedWords)
 
   res.status(200).json(top10)
 })
