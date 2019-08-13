@@ -1,4 +1,8 @@
 
+/**
+ * Get the Top10 Most used words from an array of strings: string[]
+ * @param titlesWords Array of strings that contain all the words to analyze.
+ */
 export default function mostUsedWordsFn (titlesWords: string[]) {
   interface IMostUsed {[key: string]: number}
   let mostUsedWords = <IMostUsed>{}
