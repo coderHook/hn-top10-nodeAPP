@@ -1,0 +1,19 @@
+{
+  "name": "hn-opc-api",
+  "version": "1.0.0",
+  "description": "NodeJs App that talks to a public API of HackerNews",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "express",
+    "javascript",
+    "api",
+    "hn"
+  ],
+  "author": "Pedro Abel Diaz",
+  "license": "ISC"
+}
