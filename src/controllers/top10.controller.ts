@@ -29,7 +29,7 @@ export async function titlesLast25Controller (req: Request, res: Response, next:
   res.status(200).json({top10_words})
 }
 
-export function inPostLastWeekController(req: Request, res: Response, next: NextFunction){
+export async function inPostLastWeekController(req: Request, res: Response, next: NextFunction){
   // Get last week date
   function getLastWeek(): Date {
     const today: Date = new Date();
@@ -40,6 +40,13 @@ export function inPostLastWeekController(req: Request, res: Response, next: Next
 
   // Get lastWeek date and convert it to unixTime
   const lastWeekUnix: number = getLastWeek().getTime()/1000
+
+  // Get maxitem Id from HN API
+  const maxItem = await superagent.get('https://hacker-news.firebaseio.com/v0/maxitem.json')
+
+  const maxItemID: number = Number(maxItem.text)
+
+  //Post from last Week will be the first on: time <= lastWeekUnix
   
-  res.send({'lastWeek': lastWeekUnix})
+  res.send(typeof maxItemID)
 }
