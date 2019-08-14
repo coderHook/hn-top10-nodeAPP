@@ -1,9 +1,12 @@
+import superagent from 'superagent'
+//@ts-ignore
+import parallel from 'async-await-parallel'
 
 /**
  * Get the Top10 Most used words from an array of strings: string[]
  * @param titlesWords Array of strings that contain all the words to analyze.
  */
-export default function mostUsedWordsFn (titlesWords: string[]) {
+export function mostUsedWordsFn (titlesWords: string[]) {
   interface IMostUsed {[key: string]: number}
   let mostUsedWords = <IMostUsed>{}
 
@@ -33,4 +36,19 @@ export default function mostUsedWordsFn (titlesWords: string[]) {
   const top10_words: string[] = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
 
   return top10_words
+}
+
+export function batchRequests (urls: string[]) {
+  console.log('Im here!!!')
+  const batchSize = 10;
+
+  return parallel(urls.map(url => {
+    return () => {
+      return superagent.get(url)
+    }
+  }, batchSize)
+  ).then( (result: any) => {
+    console.log(result)
+    return result
+  })
 }

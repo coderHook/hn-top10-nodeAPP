@@ -1,6 +1,7 @@
 import superagent from 'superagent'
 import {Request, Response, NextFunction} from 'express'
-import mostUsedWordsFn from './../utils/functions'
+import {mostUsedWordsFn, batchRequests} from './../utils/functions'
+
 
 
 export async function titlesLast25Controller (req: Request, res: Response, next: NextFunction) {
@@ -84,7 +85,7 @@ export async function inTitlesLast600HighKarma(req: Request, res: Response, next
 
   const last600stories = await superagent.get(`https://hacker-news.firebaseio.com/v0/user/${users[0]}.json`)
 
-  const submitted: number[] = JSON.parse(last600stories.text).submitted.slice(0, 600)
+  const submitted: number[] = JSON.parse(last600stories.text).submitted.slice(0, 50)
 
   //Create an array with all the urls we need to fetch
   let urls: string[] = []
@@ -92,8 +93,8 @@ export async function inTitlesLast600HighKarma(req: Request, res: Response, next
   submitted.map(id => urls.push(`https://hacker-news.firebaseio.com/v0/item/${id}.json`))
 
   // Fecth data with blueBird library to make batches and not overload the requests.
+  const result = await batchRequests(urls)
 
-
-  res.send({urls})
+  res.send(result)
 
 }
