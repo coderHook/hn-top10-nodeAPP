@@ -13,6 +13,24 @@
 - 3. If you are going to develope Install devDependencies
       #### `npm install --dev`
 
+## List of Dependencies this App uses.
+Dependencies in production.
+
+| Name          | Description           | 
+| ------------- |:---------------------:| 
+| Express      | Node.js Framework to create fast servers, allowing the use of midlewares. | 
+| superagent | Provides Call Api functionality.      | 
+| eslint | Used to find problematic patterns or code that doesn't adhere to certain style guidelines.      | 
+| async-await-parallel | Allows to set a maximum concurrency for an array of async results you want to await on.      | 
+| cheerio | Node.js library that helps developers interpret and analyze web pages using a jQuery-like syntax. Used to Scrappe HackerNews page.      |   
+
+Dependencies in development.
+
+| Name          | Description           | 
+| ------------- |:---------------------:| 
+| typescript      | Superset of Javascript that allows to write typed code | 
+| ts-node      | Allows TypeScript to be used in Node.js enviroment. We can use *.ts files without compiling it to js.      |   
+| nodemon | Utility to monitor the changes in the source code and restart the server.      |  
 
 ## Available Scripts
 
