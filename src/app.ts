@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import top10Routes from './routes/top10.routes'
 
 const app: Application = express();
+
 const port: number = 5000;
 
 //Top 10 words routes
@@ -12,5 +13,5 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(port, () => 
-  console.log(`App Running on http://localhost:${port}`)
+  console.log(`App Running on http://localhost:${port}/top10`)
 );

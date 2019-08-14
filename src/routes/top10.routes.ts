@@ -18,4 +18,13 @@ router.get('/in-post-last-week', inPostLastWeekController)
  */
 router.get('/in-titles-high-karma', inTitlesLast600HighKarma)
 
+
+router.get('/', (req, res) => {
+  res.status(200).send({
+    'Endpoint1': 'http://localhost:5000/top10/in-titles-last-25-Stories',
+    'Endpoint2': 'http://localhost:5000/top10/in-titles-last-25-Stories',
+    'Endpoint3': 'http://localhost:5000/top10/in-titles-high-karma',
+  })
+})
+
 export default router
