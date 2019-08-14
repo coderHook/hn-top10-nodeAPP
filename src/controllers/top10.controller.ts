@@ -1,6 +1,6 @@
 import superagent from 'superagent'
 import {Request, Response, NextFunction} from 'express'
-import mostUsedWordsFn from './../utils/functions'
+import {mostUsedWordsFn, batchRequests} from './../utils/functions'
 
 export async function titlesLast25Controller (req: Request, res: Response, next: NextFunction) {
   // Get the Id ot the last Stories.
@@ -77,6 +77,30 @@ export async function inPostLastWeekController(req: Request, res: Response, next
   })
 }
 
-export function inTitlesLast600HighKarma(req: Request, res: Response, next: NextFunction) {
-  res.send("inTitlesLast600HighKarma")
+
+export async function inTitlesLast600HighKarma(req: Request, res: Response, next: NextFunction) {
+
+  const users = ['tptacek', 'jacquesm', 'patio11', 'danso', 'ingve', 'ColinWright']
+
+  const last600stories = await superagent.get(`https://hacker-news.firebaseio.com/v0/user/${users[0]}.json`)
+
+  const submitted: number[] = JSON.parse(last600stories.text).submitted.slice(0, 600)
+
+  //Create an array with all the urls we need to fetch
+  let urls: string[] = []
+
+  submitted.map(id => urls.push(`https://hacker-news.firebaseio.com/v0/item/${id}.json`))
+
+  // Fecth data with blueBird library to make batches and not overload the requests.
+  const result = await batchRequests(urls)
+
+  // Join and split the text by non alphanumeric characters.
+  const text: string[] = result.join(',').split(/(?:,| )+/)
+  const mostUsedWords: string[] = mostUsedWordsFn(text)
+
+  res.status(200).send({
+    numStories: submitted.length, 
+    mostUsedWords
+  })
+
 }
