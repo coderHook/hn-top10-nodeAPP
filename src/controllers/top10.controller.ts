@@ -71,7 +71,7 @@ export async function inPostLastWeekController(req: Request, res: Response, next
 
   const lastWeek: string = getLastWeek().toISOString().substring(0, 10);
 
-  const url = `https://news.ycombinator.com/front?day=${lastWeek}`
+  const url: string = `https://news.ycombinator.com/front?day=${lastWeek}`
   const IDPostLastWeek = await getIDFromDate(url)
 
   const post = await superagent(`https://hacker-news.firebaseio.com/v0/item/${IDPostLastWeek}.json?print=pretty`)
