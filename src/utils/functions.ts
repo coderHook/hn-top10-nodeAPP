@@ -17,7 +17,7 @@ export function mostUsedWordsFn (titlesWords: string[]) {
     count = 0;
 
     for (let j=i+1; j< titlesWords.length; j++) {
-
+      mostUsedWords[titlesWords[i]] = count
       // Check if the words are equal
       if(titlesWords[i] === titlesWords[j]) {
         count = count + 1;
@@ -33,7 +33,12 @@ export function mostUsedWordsFn (titlesWords: string[]) {
   delete mostUsedWords['-']
 
   //Sort the Object by values and get the top10
-  const top10_words: string[] = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
+  let top10_words: string[]
+  if(Object.keys(mostUsedWords).length > 10) {
+    top10_words = Object.keys(mostUsedWords).sort((a: string, b: string) => mostUsedWords[b] - mostUsedWords[a]).slice(0, 10)
+  } else {
+    top10_words = Object.keys(mostUsedWords)
+  }
 
   return top10_words
 }
