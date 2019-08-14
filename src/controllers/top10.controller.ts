@@ -91,7 +91,7 @@ export async function inTitlesLast600HighKarma(req: Request, res: Response, next
 
   submitted.map(id => urls.push(`https://hacker-news.firebaseio.com/v0/item/${id}.json`))
 
-  // Fecth data with blueBird lib to make batches and not overload the requests.
+  // Fecth data with blueBird library to make batches and not overload the requests.
 
 
   res.send({urls})
