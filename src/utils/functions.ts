@@ -38,17 +38,30 @@ export function mostUsedWordsFn (titlesWords: string[]) {
   return top10_words
 }
 
+/**
+ * Make a batch Request in parallel to not overload fetching.
+ * @param urls Array of urls for each of the items
+ */
 export function batchRequests (urls: string[]) {
   console.log('Im here!!!')
   const batchSize = 10;
 
   return parallel(urls.map(url => {
-    return () => {
-      return superagent.get(url)
+    return async () => {
+      const request = await superagent.get(url)
+
+      const textJSON = JSON.parse(request.text)
+      
+      if(textJSON.text) {
+        return textJSON.text.toLowerCase()
+      }
+      
+      return ' ';
     }
   }, batchSize)
   ).then( (result: any) => {
     console.log(result)
     return result
   })
+  .catch((err:any) => console.log(err))
 }
