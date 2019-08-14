@@ -48,7 +48,7 @@ export function mostUsedWordsFn (titlesWords: string[]) {
  * @param urls Array of urls for each of the items
  */
 export function batchRequests (urls: string[]) {
-  console.log('Im here!!!')
+  console.log('Please wait about 2 minuts to get all the 600 entries')
   const batchSize = 50;
 
   return parallel(urls.map(url => {
