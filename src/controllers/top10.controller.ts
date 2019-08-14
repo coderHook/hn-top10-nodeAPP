@@ -1,6 +1,7 @@
 import superagent from 'superagent'
 import {Request, Response, NextFunction} from 'express'
 import {mostUsedWordsFn, batchRequests} from './../utils/functions'
+import { getIDFromDate } from './../utils/scrapper'
 
 export async function titlesLast25Controller (req: Request, res: Response, next: NextFunction) {
   // Get the Id ot the last Stories.
@@ -39,41 +40,51 @@ export async function inPostLastWeekController(req: Request, res: Response, next
     const today: Date = new Date();
     console.log(today.getTime()/1000)
     const lastWeek: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
-    return lastWeek;
+
+    return lastWeek
   }
 
-  // Get lastWeek date and convert it to unixTime
-  const lastWeekUnix: number = getLastWeek().getTime()/1000
+  // // Get lastWeek date and convert it to unixTime
+  // const lastWeekUnix: number = getLastWeek().getTime()/1000
 
-  // Get maxitem Id from HN API
-  const maxItem = await superagent.get('https://hacker-news.firebaseio.com/v0/maxitem.json')
+  // // Get maxitem Id from HN API
+  // const maxItem = await superagent.get('https://hacker-news.firebaseio.com/v0/maxitem.json')
 
-  const maxItemID: number = Number(maxItem.text)
+  // const maxItemID: number = Number(maxItem.text)
 
-  //Post from last Week will be the first on: time <= lastWeekUnix
-  let postLastWeek;
-  for (let i = maxItemID; i >= 0; i-=8000) {
-    const post = await superagent(`https://hacker-news.firebaseio.com/v0/item/${i}.json?print=pretty`)
+  // //Post from last Week will be the first on: time <= lastWeekUnix
+  // let postLastWeek;
+  // for (let i = maxItemID; i >= 0; i-=8000) {
+  //   const post = await superagent(`https://hacker-news.firebaseio.com/v0/item/${i}.json?print=pretty`)
 
-    const postJSON = JSON.parse(post.text)
-    const time = postJSON.time
+  //   const postJSON = JSON.parse(post.text)
+  //   const time = postJSON.time
 
-    if(time <= lastWeekUnix) {
-      postLastWeek = postJSON
-      break;
-    }
-  }
+  //   if(time <= lastWeekUnix) {
+  //     postLastWeek = postJSON
+  //     break;
+  //   }
+  // }
 
-  console.log(new Date(postLastWeek.time*1000))
+  // const text: string[] = postLastWeek.text.split(' ')
+  // const mostUsedWords: string[] = mostUsedWordsFn(text)
 
-  const text: string[] = postLastWeek.text.split(' ')
+  const lastWeek: string = getLastWeek().toISOString().substring(0, 10);
+
+  const url = `https://news.ycombinator.com/front?day=${lastWeek}`
+  const IDPostLastWeek = await getIDFromDate(url)
+
+  const post = await superagent(`https://hacker-news.firebaseio.com/v0/item/${IDPostLastWeek}.json?print=pretty`)
+
+  const postJSON = JSON.parse(post.text)
+
+  const text: string[] = (postJSON.title + postJSON.text).split(' ')
   const mostUsedWords: string[] = mostUsedWordsFn(text)
 
   res.status(200).send({
-    lastWeekUnix,
-    maxItemID,
-    postLastWeek,
-    mostUsedWords 
+    IDPostLastWeek,
+    'Date': lastWeek,
+    mostUsedWords
   })
 }
 
