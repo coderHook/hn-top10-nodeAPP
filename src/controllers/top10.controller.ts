@@ -26,8 +26,12 @@ export async function titlesLast25Controller (req: Request, res: Response, next:
  
   const top10_words = mostUsedWordsFn(titlesWords)
 
-  res.status(200).json({top10_words})
+  res.status(200).json({
+    titles,
+    top10_words
+  })
 }
+
 
 export async function inPostLastWeekController(req: Request, res: Response, next: NextFunction){
   // Get last week date
@@ -47,6 +51,32 @@ export async function inPostLastWeekController(req: Request, res: Response, next
   const maxItemID: number = Number(maxItem.text)
 
   //Post from last Week will be the first on: time <= lastWeekUnix
-  
-  res.send(typeof maxItemID)
+  let postLastWeek;
+  for (let i = maxItemID; i >= 0; i-=8000) {
+    const post = await superagent(`https://hacker-news.firebaseio.com/v0/item/${i}.json?print=pretty`)
+
+    const postJSON = JSON.parse(post.text)
+    const time = postJSON.time
+
+    if(time <= lastWeekUnix) {
+      postLastWeek = postJSON
+      break;
+    }
+  }
+
+  console.log(new Date(postLastWeek.time*1000))
+
+  const text: string[] = postLastWeek.text.split(' ')
+  const mostUsedWords: string[] = mostUsedWordsFn(text)
+
+  res.status(200).send({
+    lastWeekUnix,
+    maxItemID,
+    postLastWeek,
+    mostUsedWords 
+  })
+}
+
+export function inTitlesLast600HighKarma(req: Request, res: Response, next: NextFunction) {
+  res.send("inTitlesLast600HighKarma")
 }
