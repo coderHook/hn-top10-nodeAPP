@@ -1,4 +1,5 @@
-# Hacker News TypesScript - NodeJs APP
+# Hacker News Top 10 Most Used Words
+### TypesScript - NodeJs APP
 
  TS-NodeJs App that talks to a public API of HackerNews getting information about top 10 most used words, in titles, last week Story and from users with high Karma.
 
@@ -14,7 +15,7 @@
       #### `npm install --dev`
 
 ## List of Dependencies this App uses.
-Dependencies in production.
+Local Dependencies.
 
 | Name          | Description           | 
 | ------------- |:---------------------:| 
