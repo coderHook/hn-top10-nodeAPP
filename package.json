@@ -19,8 +19,10 @@
   "author": "Pedro Abel Diaz",
   "license": "ISC",
   "dependencies": {
+    "@types/cheerio": "^0.22.13",
     "async-await-parallel": "^1.0.0",
     "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "eslint": "^6.1.0",
     "express": "^4.17.1",
     "superagent": "^5.1.0"
