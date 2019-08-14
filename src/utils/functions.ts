@@ -44,14 +44,14 @@ export function mostUsedWordsFn (titlesWords: string[]) {
  */
 export function batchRequests (urls: string[]) {
   console.log('Im here!!!')
-  const batchSize = 10;
+  const batchSize = 50;
 
   return parallel(urls.map(url => {
     return async () => {
       const request = await superagent.get(url)
 
       const textJSON = JSON.parse(request.text)
-      
+
       if(textJSON.text) {
         return textJSON.text.toLowerCase()
       }

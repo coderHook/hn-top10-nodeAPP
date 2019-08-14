@@ -2,8 +2,6 @@ import superagent from 'superagent'
 import {Request, Response, NextFunction} from 'express'
 import {mostUsedWordsFn, batchRequests} from './../utils/functions'
 
-
-
 export async function titlesLast25Controller (req: Request, res: Response, next: NextFunction) {
   // Get the Id ot the last Stories.
   const result = await superagent.get('https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
@@ -78,6 +76,7 @@ export async function inPostLastWeekController(req: Request, res: Response, next
     mostUsedWords 
   })
 }
+
 
 export async function inTitlesLast600HighKarma(req: Request, res: Response, next: NextFunction) {
 
