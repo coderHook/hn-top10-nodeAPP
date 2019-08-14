@@ -95,6 +95,7 @@ export async function inTitlesLast600HighKarma(req: Request, res: Response, next
   // Fecth data with blueBird library to make batches and not overload the requests.
   const result = await batchRequests(urls)
 
+  // Join and split the text by non alphanumeric characters.
   const text: string[] = result.join(',').split(/(?:,| )+/)
   const mostUsedWords: string[] = mostUsedWordsFn(text)
 
